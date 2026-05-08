@@ -57,7 +57,7 @@ class Sistema:
                     print("\nVOCÊ NÃO PODE FALTAR MAIS!")
                     
                 elif abs(i.minhas_faltas - i.faltas_max) <= 2:
-                    print(f"\nATENÇÃO: Você ainda tem {i.minhas_faltas - i.faltas_max} falta(s)!")
+                    print(f"\nATENÇÃO: Você ainda tem {abs(i.minhas_faltas - i.faltas_max)} falta(s)!")
                 
             pass
     

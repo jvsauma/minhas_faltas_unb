@@ -45,8 +45,7 @@ class Gerenciador:
         #verificação de existencia em lista de disciplinas
         for d in self.disciplinas:
             if nome == d.nome:
-                index_disciplina = self.disciplinas.index(d)
-                self.disciplinas.remove(index_disciplina)
+                self.disciplinas.remove(d)
                 
                 return print("\nDisciplina removida")
         
@@ -56,14 +55,14 @@ class Gerenciador:
     
     def adicionar_faltas(self):
 
-        disciplina_add_falta = int(input("\nQual disciplina deseja adicionar a(s) falta(s)? "))
+        disciplina_add_falta = input("\nQual disciplina deseja adicionar a(s) falta(s)? ")
         
         for materia in self.disciplinas:
             
             if materia.nome == disciplina_add_falta:
                 print(f"\nDisciplina selecionada: {disciplina_add_falta}")
-                qtd_faltas = int(input("\nQuantas faltas deseja adicionar? (somente números) "))
-                materia.faltas = qtd_faltas
+                qtd_faltas = int(input("\nQuantas faltas deseja adicionar? (somente números): "))
+                materia.minhas_faltas += qtd_faltas
                 print("\nFaltas adicionadas com sucesso!")
                 
             else:
@@ -84,7 +83,7 @@ class Gerenciador:
             if materia.nome == disciplina_remove_falta:
                 print(f"\nDisciplina selecionada: {disciplina_remove_falta}")
                 qtd_faltas = int(input("\nQuantas faltas deseja retirar? (somente números) "))
-                materia.faltas -= qtd_faltas
+                materia.minhas_faltas -= qtd_faltas
                 print("\nFaltas retiradas com sucesso")
 
             
