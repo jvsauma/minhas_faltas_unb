@@ -45,19 +45,24 @@ class Sistema:
             return
         
         else:
+            lista_ordenada = self.gerenciador.criar_lista_ordenada()
+            
             print("\n-----MINHA GRADE-----")
             print("\nMATÉRIAS / HORAS / SUAS FALTAS / FALTAS MÁX")
-            for i in self.gerenciador.disciplinas:
-                print(f"\n{i.nome} / {i.horas} / {i.minhas_faltas} / {i.faltas_max}")
+            
+            #class relatorio - subclass relatorio simples e completo (polimorfismo e herança)
+            
+            for dicionar in lista_ordenada:
+                print(f"\n{dicionar["nome"]} / {dicionar["horas"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
                 
-                if i.minhas_faltas > i.faltas_max:
+                if dicionar["minhas_faltas"] > dicionar["faltas_max"]:
                     print("\nVocê reprovou por falta.")
                 
-                elif i.minhas_faltas == i.faltas_max:
+                elif dicionar["minhas_faltas"] == dicionar["faltas_max"]:
                     print("\nVOCÊ NÃO PODE FALTAR MAIS!")
                     
-                elif abs(i.minhas_faltas - i.faltas_max) <= 2:
-                    print(f"\nATENÇÃO: Você ainda tem {abs(i.minhas_faltas - i.faltas_max)} falta(s)!")
+                elif abs(dicionar["minhas_faltas"] - dicionar["faltas_max"]) <= 2:
+                    print(f"\nATENÇÃO: Você ainda tem {abs(dicionar["minhas_faltas"] - dicionar["faltas_max"])} falta(s)!")
                 
             pass
     

@@ -5,6 +5,23 @@ class Gerenciador:
         
         self.disciplinas = []
         
+        
+    def criar_lista_ordenada(self):
+        
+        lista_materias = []
+        
+        #criando uma lista em ordem alfabética das disciplinas
+        for materia in self.disciplinas:
+            
+            lista_materias.append(materia)
+            
+            
+            lista_materias.sort(key = lambda dicionario : dicionario["nome"])
+    
+        #lista de dicionários
+        return lista_materias
+    
+        
     def lembrete(self):
         
         return print("\nLEMBRANDO: Escreva o nome da matéria exatamente como ela está registrada.")
@@ -12,8 +29,14 @@ class Gerenciador:
     
     
     def adicionar_disciplina(self):
-        nome = input("\nDigite o nome da disciplina: ")
-        horas = input("\nDigite as horas da disciplina (somente números): ")
+        nome = input("\nDigite o nome da disciplina: ").strip()
+        
+        for dicionar in self.disciplinas:
+            if dicionar["nome"] == nome:
+                print("\nDisciplina já existente.")
+                return
+        
+        horas = input("\nDigite as horas da disciplina (somente números): ").strip()
         
         try:
             horas = int(horas)
@@ -21,14 +44,11 @@ class Gerenciador:
             return print("\nSó é permitido números.")
         
         #verificação de existencia em lista de disciplinas
-        for d in self.disciplinas:
-            if d.nome == nome:
-                print("\nDisciplina já existente.")
-                return
         
         materia = Disciplina(nome, horas)
         materia.calcular_faltas(horas)
-        self.disciplinas.append(materia)
+        dict_materia = materia.__dict__
+        self.disciplinas.append(dict_materia)
         
         return print("\nSua disciplina foi adicionada!")
 
@@ -37,15 +57,25 @@ class Gerenciador:
     
     def remover_materia(self):
 
-        if not self.disciplinas:
+        lista_materias = self.criar_lista_ordenada()
+
+        if not lista_materias:
             return print("\nNão existe disciplina para retirar")
         
-        nome = input("\nDigite o nome exato da disciplina que deseja remover: ")
+        
+        print("\nIndex - Disciplina")
+        
+        for dicionar in lista_materias:
+            print(f"\n[{lista_materias.index(dicionar)}] - {dicionar["nome"]}")
+
+
+        disciplina_remove_disciplina = input("\nQual disciplina você deseja remover? (Digite o número referente): ").strip()
+        
         
         #verificação de existencia em lista de disciplinas
-        for d in self.disciplinas:
-            if nome == d.nome:
-                self.disciplinas.remove(d)
+        for dicionar in lista_materias:
+            if disciplina_remove_disciplina == lista_materias.index(dicionar) and dicionar["nome"] == lista_materias[disciplina_remove_disciplina]:
+                lista_materias.remove(dicionar)
                 
                 return print("\nDisciplina removida")
         
@@ -54,37 +84,91 @@ class Gerenciador:
     
     
     def adicionar_faltas(self):
+        
+        #lista dicionários
+        lista_materias = self.criar_lista_ordenada()
+        
+        print("\nIndex - Disciplina / Faltas / Faltas Max")
+        
+        for dicionar in lista_materias:
+            print(f"\n[{lista_materias.index(dicionar)}] - {dicionar["nome"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
 
-        disciplina_add_falta = input("\nQual disciplina deseja adicionar a(s) falta(s)? ")
+
+        disciplina_add_falta = input("\nQual disciplina deseja adicionar a(s) falta(s)? (Digite o número referente): ").strip()
         
-        for materia in self.disciplinas:
+        try:
+            disciplina_add_falta = int(disciplina_add_falta)
             
-            if materia.nome == disciplina_add_falta:
-                print(f"\nDisciplina selecionada: {disciplina_add_falta}")
-                qtd_faltas = int(input("\nQuantas faltas deseja adicionar? (somente números): "))
-                materia.minhas_faltas += qtd_faltas
-                print("\nFaltas adicionadas com sucesso!")
+        except:
+            return print("Digite apenas o número referente à disciplina.")
+        
+        
+        
+        for dicionar in lista_materias:
+        
+            if disciplina_add_falta == lista_materias.index(dicionar):
                 
-            else:
-                print("\nMatéria não encontrada.")
+                print(f"\nDisciplina selecionada: {dicionar["nome"]}")
+                
+                qtd_faltas = input("\nQuantas faltas deseja adicionar? (somente números): ")
+                
+                try:
+                    qtd_faltas = int(qtd_faltas)
+                    
+                except:
+                    return print("\nSelecione apenas números")
+                
+                dicionar["minhas_faltas"] += qtd_faltas
+                return print("\nFaltas adicionadas com sucesso!")
+                
+            
+        return print("\nMatéria não encontrada.")
         
-        
-        
-        
-        
-        pass
+
     
     def retirar_faltas(self):
 
-        disciplina_remove_falta = input("\nQual disciplina deseja retirar as faltas?")
+        lista_materias = self.criar_lista_ordenada()
+
+        print("\nIndex - Disciplina / Faltas / Faltas Max")
         
-        for materia in self.disciplinas:
+        
+         #arrumar isso para lógica de retirar matéria
+        for dicionar in lista_materias:
+            print(f"\n[{lista_materias.index(dicionar)}] - {dicionar["nome"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
+
+
+        disciplina_remove_falta = input("\nQual disciplina deseja retirar a(s) falta(s)? (Digite o número referente): ").strip()
+        
+        try:
+            disciplina_remove_falta = int(disciplina_remove_falta)
             
-            if materia.nome == disciplina_remove_falta:
-                print(f"\nDisciplina selecionada: {disciplina_remove_falta}")
-                qtd_faltas = int(input("\nQuantas faltas deseja retirar? (somente números) "))
-                materia.minhas_faltas -= qtd_faltas
-                print("\nFaltas retiradas com sucesso")
+        except:
+            return print("Digite apenas o número referente à disciplina.")
+        
+        
+        
+        for dicionar in lista_materias:
+        
+            if disciplina_remove_falta == lista_materias.index(dicionar):
+                
+                print(f"\nDisciplina selecionada: {dicionar["nome"]}")
+                
+                qtd_faltas = input("\nQuantas faltas deseja retirar? (somente números): ")
+                
+                try:
+                    qtd_faltas = int(qtd_faltas)
+                    
+                except:
+                    return print("\nSelecione apenas números")
+                
+                
+                #arrumar isso e arrumar matérias com mesmo nome
+                dicionar["minhas_faltas"] -= qtd_faltas
+                print("\nFaltas retiradas com sucesso!")
+                
+            else:
+                return print("\nMatéria não encontrada.")
 
             
         pass
