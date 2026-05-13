@@ -1,4 +1,6 @@
 from package.gerenciador import Gerenciador
+from package.relatoriosimples import RelatorioSimples
+from package.relatoriocompleto import RelatorioCompleto
 
 class Sistema:
     def __init__(self):
@@ -9,6 +11,7 @@ class Sistema:
     def executar(self):
         self.rodando = True
         self.gerenciador = Gerenciador()
+
         
         while self.rodando:
             
@@ -45,26 +48,53 @@ class Sistema:
             return
         
         else:
-            lista_ordenada = self.gerenciador.criar_lista_ordenada()
             
-            print("\n-----MINHA GRADE-----")
-            print("\nMATÉRIAS / HORAS / SUAS FALTAS / FALTAS MÁX")
+            print("\nVocê dejesa:\n1- Relatório Simples\n2- Relatório Completo")
+            escolha_relatorio = input("\nDigite aqui sua escolha (apenas números): ")
             
-            #class relatorio - subclass relatorio simples e completo (polimorfismo e herança)
-            
-            for dicionar in lista_ordenada:
-                print(f"\n{dicionar["nome"]} / {dicionar["horas"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
+            try:
+                escolha_relatorio = int(escolha_relatorio)
+            except:
+                return print("\nDigite apenas números.")
                 
-                if dicionar["minhas_faltas"] > dicionar["faltas_max"]:
-                    print("\nVocê reprovou por falta.")
+            
+            if escolha_relatorio == 1:
+                relatorio = RelatorioSimples()
                 
-                elif dicionar["minhas_faltas"] == dicionar["faltas_max"]:
-                    print("\nVOCÊ NÃO PODE FALTAR MAIS!")
+                lista_ordenada_relatorio = self.gerenciador.criar_lista_ordenada()
+                
+                relatorio.exibir_relatorio(lista_ordenada_relatorio)
+            
+            elif escolha_relatorio == 2:
+                relatorio = RelatorioCompleto()
+                lista_ordenada_relatorio = self.gerenciador.criar_lista_ordenada()
+                relatorio.exibir_relatorio(lista_ordenada_relatorio)
+            
+            else:
+                print("\nDigite um número válido.")
+            
+            
+            
+            # lista_ordenada = self.gerenciador.criar_lista_ordenada()
+            
+            # print("\n-----MINHA GRADE-----")
+            # print("\nMATÉRIAS / HORAS / SUAS FALTAS / FALTAS MÁX")
+            
+            # #class relatorio - subclass relatorio simples e completo (polimorfismo e herança)
+            
+            # for dicionar in lista_ordenada:
+            #     print(f"\n{dicionar["nome"]} / {dicionar["horas"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
+                
+            #     if dicionar["minhas_faltas"] > dicionar["faltas_max"]:
+            #         print("\nVocê reprovou por falta.")
+                
+            #     elif dicionar["minhas_faltas"] == dicionar["faltas_max"]:
+            #         print("\nVOCÊ NÃO PODE FALTAR MAIS!")
                     
-                elif abs(dicionar["minhas_faltas"] - dicionar["faltas_max"]) <= 2:
-                    print(f"\nATENÇÃO: Você ainda tem {abs(dicionar["minhas_faltas"] - dicionar["faltas_max"])} falta(s)!")
+            #     elif abs(dicionar["minhas_faltas"] - dicionar["faltas_max"]) <= 2:
+            #         print(f"\nATENÇÃO: Você ainda tem {abs(dicionar["minhas_faltas"] - dicionar["faltas_max"])} falta(s)!")
                 
-            pass
+            # pass
     
     
     
