@@ -55,7 +55,8 @@ class Sistema:
             try:
                 escolha_relatorio = int(escolha_relatorio)
             except:
-                return print("\nDigite apenas números.")
+                print("\nDigite apenas números.")
+                return
                 
             
             if escolha_relatorio == 1:
@@ -74,27 +75,6 @@ class Sistema:
                 print("\nDigite um número válido.")
             
             
-            
-            # lista_ordenada = self.gerenciador.criar_lista_ordenada()
-            
-            # print("\n-----MINHA GRADE-----")
-            # print("\nMATÉRIAS / HORAS / SUAS FALTAS / FALTAS MÁX")
-            
-            # #class relatorio - subclass relatorio simples e completo (polimorfismo e herança)
-            
-            # for dicionar in lista_ordenada:
-            #     print(f"\n{dicionar["nome"]} / {dicionar["horas"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
-                
-            #     if dicionar["minhas_faltas"] > dicionar["faltas_max"]:
-            #         print("\nVocê reprovou por falta.")
-                
-            #     elif dicionar["minhas_faltas"] == dicionar["faltas_max"]:
-            #         print("\nVOCÊ NÃO PODE FALTAR MAIS!")
-                    
-            #     elif abs(dicionar["minhas_faltas"] - dicionar["faltas_max"]) <= 2:
-            #         print(f"\nATENÇÃO: Você ainda tem {abs(dicionar["minhas_faltas"] - dicionar["faltas_max"])} falta(s)!")
-                
-            # pass
     
     
     
@@ -147,7 +127,7 @@ class Sistema:
         elif escolha == "2":
             
             self.gerenciador.lembrete()
-            self.gerenciador.remover_materia()
+            self.gerenciador.remover_disciplina()
             
         elif escolha == "3":
             

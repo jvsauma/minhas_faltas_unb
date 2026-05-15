@@ -41,7 +41,8 @@ class Gerenciador:
         try:
             horas = int(horas)
         except:
-            return print("\nSó é permitido números.")
+            print("\nSó é permitido números.")
+            return
         
         #verificação de existencia em lista de disciplinas
         
@@ -50,17 +51,19 @@ class Gerenciador:
         dict_materia = materia.__dict__
         self.disciplinas.append(dict_materia)
         
-        return print("\nSua disciplina foi adicionada!")
+        print("\nSua disciplina foi adicionada!")
 
         
     
     
-    def remover_materia(self):
+    def remover_disciplina(self):
 
+        #lista de dicionários
         lista_materias = self.criar_lista_ordenada()
 
         if not lista_materias:
-            return print("\nNão existe disciplina para retirar")
+            print("\nNão existe disciplina para retirar.")
+            return
         
         
         print("\nIndex - Disciplina")
@@ -72,12 +75,23 @@ class Gerenciador:
         disciplina_remove_disciplina = input("\nQual disciplina você deseja remover? (Digite o número referente): ").strip()
         
         
+        try:
+            disciplina_remove_disciplina = int(disciplina_remove_disciplina)
+        except:
+            print("Digite somente números")
+            return
+        
+        
         #verificação de existencia em lista de disciplinas
         for dicionar in lista_materias:
-            if disciplina_remove_disciplina == lista_materias.index(dicionar) and dicionar["nome"] == lista_materias[disciplina_remove_disciplina]:
-                lista_materias.remove(dicionar)
+            if disciplina_remove_disciplina == lista_materias.index(dicionar) and dicionar["nome"] == lista_materias[disciplina_remove_disciplina]["nome"]:
                 
-                return print("\nDisciplina removida")
+                
+                self.disciplinas.remove(dicionar)
+                
+                
+                print("\nDisciplina removida")
+                return
         
         print("\nDisciplina não encontrada")
         
@@ -100,7 +114,8 @@ class Gerenciador:
             disciplina_add_falta = int(disciplina_add_falta)
             
         except:
-            return print("Digite apenas o número referente à disciplina.")
+            print("Digite apenas o número referente à disciplina.")
+            return
         
         
         
@@ -116,13 +131,15 @@ class Gerenciador:
                     qtd_faltas = int(qtd_faltas)
                     
                 except:
-                    return print("\nSelecione apenas números")
+                    print("\nSelecione apenas números")
+                    return
                 
                 dicionar["minhas_faltas"] += qtd_faltas
-                return print("\nFaltas adicionadas com sucesso!")
-                
+                print("\nFaltas adicionadas com sucesso!")
+                return
             
-        return print("\nMatéria não encontrada.")
+        print("\nMatéria não encontrada.")
+        return
         
 
     
@@ -144,7 +161,8 @@ class Gerenciador:
             disciplina_remove_falta = int(disciplina_remove_falta)
             
         except:
-            return print("Digite apenas o número referente à disciplina.")
+            print("Digite apenas o número referente à disciplina.")
+            return
         
         
         
@@ -160,7 +178,8 @@ class Gerenciador:
                     qtd_faltas = int(qtd_faltas)
                     
                 except:
-                    return print("\nSelecione apenas números")
+                    print("\nSelecione apenas números")
+                    return
                 
                 
                 #arrumar isso e arrumar matérias com mesmo nome
@@ -168,7 +187,8 @@ class Gerenciador:
                 print("\nFaltas retiradas com sucesso!")
                 
             else:
-                return print("\nMatéria não encontrada.")
+                print("\nMatéria não encontrada.")
+                return
 
             
-        pass
+        
