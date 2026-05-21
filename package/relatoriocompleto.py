@@ -13,7 +13,6 @@ class RelatorioCompleto(Relatorio):
         print("\n-----MINHA GRADE-----")
         print("\nMATÉRIAS / HORAS / SUAS FALTAS / FALTAS MÁX")
         
-        #class relatorio - subclass relatorio simples e completo (polimorfismo e herança)
         
         for dicionar in lista:
             print(f"\n{dicionar["nome"]} / {dicionar["horas"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
