@@ -1,9 +1,11 @@
 from package.disciplina import Disciplina
+from package.limpeza import Limpeza
 
 class Gerenciador:
     def __init__(self):
         
         self.disciplinas = []
+        self.limpeza = Limpeza()
         
         
     def criar_lista_ordenada(self):
@@ -51,6 +53,7 @@ class Gerenciador:
         dict_materia = materia.__dict__
         self.disciplinas.append(dict_materia)
         
+        self.limpeza.limpar_terminal()
         print("\nSua disciplina foi adicionada!")
 
         
@@ -90,9 +93,11 @@ class Gerenciador:
                 self.disciplinas.remove(dicionar)
                 
                 
+                self.limpeza.limpar_terminal()
                 print("\nDisciplina removida")
                 return
         
+        self.limpeza.limpar_terminal()
         print("\nDisciplina não encontrada")
         
     
@@ -135,9 +140,11 @@ class Gerenciador:
                     return
                 
                 dicionar["minhas_faltas"] += qtd_faltas
+                self.limpeza.limpar_terminal()
                 print("\nFaltas adicionadas com sucesso!")
                 return
             
+        self.limpeza.limpar_terminal()
         print("\nMatéria não encontrada.")
         return
         
@@ -184,9 +191,11 @@ class Gerenciador:
                 
                 #arrumar isso e arrumar matérias com mesmo nome
                 dicionar["minhas_faltas"] -= qtd_faltas
+                self.limpeza.limpar_terminal()
                 print("\nFaltas retiradas com sucesso!")
                 
             else:
+                self.limpeza.limpar_terminal()
                 print("\nMatéria não encontrada.")
                 return
 

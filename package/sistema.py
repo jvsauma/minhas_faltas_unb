@@ -1,4 +1,4 @@
-from package.gerenciador import Gerenciador
+from package.gerenciador import Gerenciador, Limpeza
 from package.relatoriosimples import RelatorioSimples
 from package.relatoriocompleto import RelatorioCompleto
 
@@ -11,6 +11,7 @@ class Sistema:
     def executar(self):
         self.rodando = True
         self.gerenciador = Gerenciador()
+        self.limpeza = Limpeza()
 
         
         while self.rodando:
@@ -20,14 +21,18 @@ class Sistema:
             escolha = input("Selecione uma opção: ")
             
             if escolha == "1":
+                self.limpeza.limpar_terminal()
                 self.ver_faltas()
             elif escolha == "2":
+                self.limpeza.limpar_terminal()
                 self.editar_faltas()
             elif escolha == "3":
+                self.limpeza.limpar_terminal()
                 self.editar_disciplina()
             elif escolha == "4":
                 self.sair()
             else:
+                self.limpeza.limpar_terminal()
                 print("\nEscolha uma opção válida.\n")
             
             
@@ -64,15 +69,21 @@ class Sistema:
                 
                 lista_ordenada_relatorio = self.gerenciador.criar_lista_ordenada()
                 
+                self.limpeza.limpar_terminal()
                 relatorio.exibir_relatorio(lista_ordenada_relatorio)
             
             elif escolha_relatorio == 2:
                 relatorio = RelatorioCompleto()
+                
                 lista_ordenada_relatorio = self.gerenciador.criar_lista_ordenada()
+                
+                self.limpeza.limpar_terminal()
                 relatorio.exibir_relatorio(lista_ordenada_relatorio)
             
             else:
+                self.limpeza.limpar_terminal()
                 print("\nDigite um número válido.")
+                self.ver_faltas()
             
             
     
@@ -90,6 +101,7 @@ class Sistema:
             
             if escolha == "1":
                 
+                self.limpeza.limpar_terminal()
                 self.gerenciador.lembrete()
                 self.gerenciador.adicionar_faltas()
                 
@@ -97,16 +109,19 @@ class Sistema:
             
             elif escolha == "2":
                 
+                self.limpeza.limpar_terminal()
                 self.gerenciador.lembrete()
                 self.gerenciador.retirar_faltas()
             
             elif escolha == "3":
                 
+                self.limpeza.limpar_terminal()
                 return
                 
             
             else:
                 
+                self.limpeza.limpar_terminal()
                 print("\nEscolha uma opção válida.\n")
                 self.editar_faltas()
             
@@ -121,19 +136,23 @@ class Sistema:
         
         if escolha == "1":
             
+            self.limpeza.limpar_terminal()
             self.gerenciador.lembrete()
             self.gerenciador.adicionar_disciplina()
     
         elif escolha == "2":
             
+            self.limpeza.limpar_terminal()
             self.gerenciador.lembrete()
             self.gerenciador.remover_disciplina()
             
         elif escolha == "3":
             
+            self.limpeza.limpar_terminal()
             return
             
         else:
+            self.limpeza.limpar_terminal()
             print("\nEscolha uma opção válida.\n")
             self.editar_disciplina()
             
