@@ -1,11 +1,13 @@
 from package.disciplina import Disciplina
 from package.limpeza import Limpeza
+from package.banco_de_dados import BancoDeDados
 
 class Gerenciador:
     def __init__(self):
         
         self.disciplinas = []
         self.limpeza = Limpeza()
+        self.banco = BancoDeDados()
         
         
     def criar_lista_ordenada(self):
