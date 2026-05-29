@@ -30,9 +30,25 @@ class BancoDeDados:
         self.conexao.commit()
         
     
-    def listar_disciplinas(self):
+    def listar_disciplinas(self, flag):
         
-        self.cursor.execute("SELECT * FROM tabela_materias")
+        if flag == "tudo":
+            
+            self.cursor.execute("SELECT * FROM tabela_materias")
+            
+        elif flag == "nome_horas":
+            
+            self.cursor.execute("SELECT nome, horas FROM tabela_materias")
+            
+        elif flag == "sem_id":
+            
+            self.cursor.execute("SELECT nome, horas, minhas_faltas, faltas_max FROM tabela_materias")
+        
+        elif flag == "id":
+            
+            self.cursor.execute("SELECT id, nome FROM tabela_materias")
+            
+            
         disciplinas = self.cursor.fetchall()
         
         return disciplinas
@@ -47,13 +63,45 @@ class BancoDeDados:
         
         
     
-    def atualizar_faltas(self, id, minhas_faltas): #nome
+    def atualizar_faltas(self, minhas_faltas, id): #nome
         
         self.cursor.execute("""UPDATE tabela_materias
                             SET minhas_faltas = ?
                             WHERE id = ?""", (minhas_faltas, id))
         
         self.conexao.commit()
+        
+        
+    def verificar_nome(self, nome):
+        
+        #retorna true ou false
+        self.cursor.execute("""SELECT * FROM tabela_materias
+                            WHERE nome = ?""", (nome,))
+        
+        resultado = self.cursor.fetchone()
+        
+        return resultado
+    
+    
+    def verificar_id(self, id):
+        
+        #retorna true ou false
+        self.cursor.execute("""SELECT * FROM tabela_materias
+                            WHERE id = ?""", (id,))
+        
+        resultado = self.cursor.fetchone()
+        
+        return resultado
+        
+    
+    def verificar_tabela(self):
+        
+        self.cursor.execute("SELECT * FROM tabela_materias")
+        
+        resultado = self.cursor.fetchone()
+        
+        return resultado
+        
         
         
     def fechar_conexao(self):
