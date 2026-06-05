@@ -139,9 +139,6 @@ class Gerenciador:
 
         print("\nId - Disciplina / Faltas / Faltas Max")
         
-        #SEGUIR O PASSO 3 DO GPT
-        
-        
         disciplinas = self.banco.listar_disciplinas("tudo")
         
         
@@ -170,8 +167,6 @@ class Gerenciador:
         except:
             return print("\nSelecione apenas números")
             
-        if materia[3] < qtd_faltas:
-            return print("\nNão é possível ficar com faltas negativas.")
         
         
         materia = self.banco.verificar_id(id_disciplina)
@@ -179,6 +174,9 @@ class Gerenciador:
         if not materia:
             return print("\nDisciplina não encontrada.")
 
+        if materia[3] < qtd_faltas:
+            return print("\nNão é possível ficar com faltas negativas.")
+        
         novas_faltas = materia[3] - qtd_faltas
 
         self.banco.atualizar_faltas(novas_faltas, id_disciplina)
