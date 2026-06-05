@@ -36,9 +36,9 @@ class BancoDeDados:
             
             self.cursor.execute("SELECT * FROM tabela_materias")
             
-        elif flag == "nome_horas":
+        elif flag == "nome_minhas_faltas":
             
-            self.cursor.execute("SELECT nome, horas FROM tabela_materias")
+            self.cursor.execute("SELECT nome, minhas_faltas FROM tabela_materias")
             
         elif flag == "sem_id":
             

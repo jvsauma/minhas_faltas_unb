@@ -30,6 +30,10 @@ class Gerenciador:
             print("\nSó é permitido números.")
             return
         
+        if horas <= 0:
+            return print("\nA carga horária deve ser maior que zero.")
+            
+        
         
         materia = Disciplina(nome, horas)
         max_faltas = materia.calcular_faltas(horas)
@@ -49,7 +53,13 @@ class Gerenciador:
         
         print("\nId - Disciplina")
 
-        self.banco.listar_disciplinas("id")
+        disciplinas = self.banco.listar_disciplinas("id")
+        
+        print("")
+        
+        for materia in disciplinas:
+            
+            print(f"{materia[0]} / {materia[1]}\n")
 
         disciplina_remove_disciplina = input("\nQual disciplina você deseja remover? (Digite o id referente): ").strip()
         
@@ -74,20 +84,23 @@ class Gerenciador:
     
     def adicionar_faltas(self):
         
-        print("\nIndex - Disciplina / Horas / Faltas / Faltas Max")
+        print("\nId - Disciplina / Horas / Faltas / Faltas Max")
         
-        self.banco.listar_disciplinas("sem_id")
+        disciplinas = self.banco.listar_disciplinas("tudo")
+        
+        for materia in disciplinas:
+            print(f"{materia[0]} / {materia[1]} / {materia[2]} / {materia[3]} / {materia[4]}\n")
 
-        disciplina_add_falta = input("\nQual disciplina deseja adicionar a(s) falta(s)? (Digite o número referente): ").strip()
+        id_disciplina = input("\nQual disciplina deseja adicionar a(s) falta(s)? (Digite o número referente): ").strip()
         
         try:
-            disciplina_add_falta = int(disciplina_add_falta)
+            id_disciplina = int(id_disciplina)
             
         except:
             print("Digite apenas o número referente à disciplina.")
             return
         
-        if self.banco.verificar_id(disciplina_add_falta):
+        if self.banco.verificar_id(id_disciplina):
             
             qtd_faltas = input("\nQuantas faltas deseja adicionar? (somente números): ")
                 
@@ -98,7 +111,19 @@ class Gerenciador:
                 print("\nSelecione apenas números")
                 return
             
-            self.banco.atualizar_faltas(qtd_faltas, disciplina_add_falta)
+            
+            materia = self.banco.verificar_id(id_disciplina)
+            
+            if not materia:
+                return print("\nDisciplina não encontrada.")
+
+            novas_faltas = materia[3] + qtd_faltas
+
+            self.banco.atualizar_faltas(
+                novas_faltas,
+                id_disciplina
+            )
+            
             
             self.limpeza.limpar_terminal()
             print("\nFaltas adicionadas com sucesso!")
@@ -112,32 +137,30 @@ class Gerenciador:
     
     def retirar_faltas(self):
 
-        print("\nIndex - Disciplina / Faltas / Faltas Max")
+        print("\nId - Disciplina / Faltas / Faltas Max")
         
         #SEGUIR O PASSO 3 DO GPT
         
         
-        minhas_disciplinas = self.banco.listar_disciplinas("tudo")
+        disciplinas = self.banco.listar_disciplinas("tudo")
         
         
-        for i, d in enumerate(minhas_disciplinas):
-            print(f"[{i}] - {d.nome} - {d.minhas_faltas} - {d.faltas_max}")
+        for materia in disciplinas:
+            print(f"{materia[0]} / {materia[1]} / {materia[2]} / {materia[3]} / {materia[4]}\n")
 
-        disciplina_remove_falta = input("\nQual disciplina deseja retirar a(s) falta(s)? (Digite o número referente): ").strip()
+        id_disciplina = input("\nQual disciplina deseja retirar a(s) falta(s)? (Digite o número referente): ").strip()
         
         try:
-            disciplina_remove_falta = int(disciplina_remove_falta)
-            
+            id_disciplina = int(id_disciplina)
+
         except:
-            print("Digite apenas o número referente à disciplina.")
-            return
-        
-        materia = minhas_disciplinas[disciplina_remove_falta]
-        
-        
+            return print("Digite apenas o número referente à disciplina.")
+
+        if not self.banco.verificar_id(id_disciplina):
+            return print("\nDisciplina não encontrada.")
+            
         
             
-        print(f"\nDisciplina selecionada: {materia.nome}")
         
         qtd_faltas = input("\nQuantas faltas deseja retirar? (somente números): ")
         
@@ -145,20 +168,26 @@ class Gerenciador:
             qtd_faltas = int(qtd_faltas)
             
         except:
-            print("\nSelecione apenas números")
-            return
+            return print("\nSelecione apenas números")
+            
+        if materia[3] < qtd_faltas:
+            return print("\nNão é possível ficar com faltas negativas.")
         
-        novas_faltas = materia.minhas_faltas - qtd_faltas
         
+        materia = self.banco.verificar_id(id_disciplina)
         
-        self.banco.atualizar_faltas(novas_faltas, materia.id)
+        if not materia:
+            return print("\nDisciplina não encontrada.")
+
+        novas_faltas = materia[3] - qtd_faltas
+
+        self.banco.atualizar_faltas(novas_faltas, id_disciplina)
+        
         
         self.limpeza.limpar_terminal()
         print("\nFaltas retiradas com sucesso!")
-        
-        self.limpeza.limpar_terminal()
-        print("\nMatéria não encontrada.")
-        return
 
+      
             
-        
+    def obter_disciplinas(self, flag):
+        return self.banco.listar_disciplinas(flag)

@@ -9,20 +9,26 @@ class RelatorioCompleto(Relatorio):
     
     def exibir_relatorio(self, lista):
 
-            
         print("\n-----MINHA GRADE-----")
         print("\nMATÉRIAS / HORAS / SUAS FALTAS / FALTAS MÁX")
-        
-        
-        for dicionar in lista:
-            print(f"\n{dicionar["nome"]} / {dicionar["horas"]} / {dicionar["minhas_faltas"]} / {dicionar["faltas_max"]}")
-            
-            if dicionar["minhas_faltas"] > dicionar["faltas_max"]:
+
+        for materia in lista:
+
+            print(
+                f"\n{materia[1]} / " #nome
+                f"{materia[2]} / " #horas
+                f"{materia[3]} / " #minhas faltas
+                f"{materia[4]}" #faltas máxima
+            )
+
+            if materia[3] > materia[4]:
                 print("\nVocê reprovou por falta.")
-            
-            elif dicionar["minhas_faltas"] == dicionar["faltas_max"]:
+
+            elif materia[3] == materia[4]:
                 print("\nVOCÊ NÃO PODE FALTAR MAIS!")
-                
-            elif abs(dicionar["minhas_faltas"] - dicionar["faltas_max"]) <= 2:
-                print(f"\nATENÇÃO: Você ainda tem {abs(dicionar["minhas_faltas"] - dicionar["faltas_max"])} falta(s)!")
-            
+
+            elif abs(materia[3] - materia[4]) <= 2:
+                print(
+                    f"\nATENÇÃO: Você ainda tem "
+                    f"{abs(materia[3] - materia[4])} falta(s)!"
+                )
