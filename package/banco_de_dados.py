@@ -6,7 +6,7 @@ class BancoDeDados:
         pass
     
     def conectar(self):
-        self.conexao = sqlite3.connect("banco.db")
+        self.conexao = sqlite3.connect("database/banco.db")
         self.cursor = self.conexao.cursor()
         
     
