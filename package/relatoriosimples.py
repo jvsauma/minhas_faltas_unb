@@ -15,5 +15,9 @@ class RelatorioSimples(Relatorio):
         
         #class relatorio - subclass relatorio simples e completo (polimorfismo e herança)
         
-        for dicionar in lista:
-            print(f"\n{dicionar["nome"]} / {dicionar["minhas_faltas"]}")
+        for materia in lista:
+
+            print(
+                f"\n{materia[0]} / " #nome
+                f"{materia[1]}" #minhas faltas
+            )

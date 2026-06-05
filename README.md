@@ -15,9 +15,9 @@ Ademais, alguns alunos foram questionados se eles gostariam que houvesse um meio
 ## Ferramentas utilizadas até o momento:
 ---
 - Python
+- SQLite 3
 
 ## Planos Futuros
 ---
-- Serialização em json
-- Trocar a serialização json por SQL
+
 - Transformar o projeto para web e/ou app

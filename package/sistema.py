@@ -12,6 +12,8 @@ class Sistema:
         self.rodando = True
         self.gerenciador = Gerenciador()
         self.limpeza = Limpeza()
+        self.gerenciador.banco.conectar()
+        self.gerenciador.banco.criar_tabela()
 
         
         while self.rodando:
@@ -47,7 +49,7 @@ class Sistema:
     
     def ver_faltas(self):
         
-        if not self.gerenciador.disciplinas:
+        if self.gerenciador.banco.verificar_tabela() is None:
             print("\nVocê ainda não possui disciplinas adicionadas.")
             
             return
@@ -67,18 +69,18 @@ class Sistema:
             if escolha_relatorio == 1:
                 relatorio = RelatorioSimples()
                 
-                lista_ordenada_relatorio = self.gerenciador.criar_lista_ordenada()
+                disciplinas = self.gerenciador.obter_disciplinas("nome_minhas_faltas")
                 
                 self.limpeza.limpar_terminal()
-                relatorio.exibir_relatorio(lista_ordenada_relatorio)
+                relatorio.exibir_relatorio(disciplinas)
             
             elif escolha_relatorio == 2:
                 relatorio = RelatorioCompleto()
                 
-                lista_ordenada_relatorio = self.gerenciador.criar_lista_ordenada()
+                disciplinas = self.gerenciador.obter_disciplinas("tudo")
                 
                 self.limpeza.limpar_terminal()
-                relatorio.exibir_relatorio(lista_ordenada_relatorio)
+                relatorio.exibir_relatorio(disciplinas)
             
             else:
                 self.limpeza.limpar_terminal()
@@ -91,7 +93,7 @@ class Sistema:
     
     def editar_faltas(self):
         
-        if not self.gerenciador.disciplinas:
+        if self.gerenciador.obter_disciplinas("tudo") is None:
             print("\nVocê ainda não possui disciplinas adicionadas.")
         
         else:
@@ -159,4 +161,5 @@ class Sistema:
         
         
     def sair(self):
+        self.gerenciador.banco.fechar_conexao()
         self.rodando = False
