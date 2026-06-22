@@ -22,15 +22,7 @@ class BancoDeDados:
         
         self.conexao.commit()
         
-    # NOVO: converte uma linha do banco em objeto Disciplina
-    def _row_para_disciplina(self, row):
-
-        if row is None:
-            return None
-
-        return Disciplina(row[1], row[2], row[3], row[4], id=row[0])
         
-    
     def salvar_disciplina(self, nome, horas, minhas_faltas, faltas_max):
         
         self.cursor.execute("""INSERT INTO tabela_materias (nome, horas, minhas_faltas, faltas_max)
@@ -38,66 +30,28 @@ class BancoDeDados:
         
         self.conexao.commit()
         
+        
+    # NOVO: converte uma linha do banco em objeto Disciplina
+    def _row_para_disciplina(self, row):
+
+        if row is None:
+            return None
+
+        return Disciplina(row[1], row[2], row[3], row[4], id=row[0])
     
-    def listar_disciplinas(self, flag):
+    # MODIFICADO
+    def listar_disciplinas(self):
 
-        if flag == "tudo":
+        self.cursor.execute(
+            "SELECT * FROM tabela_materias"
+        )
 
-            self.cursor.execute(
-                "SELECT * FROM tabela_materias"
-            )
+        disciplinas = self.cursor.fetchall()
 
-            disciplinas = self.cursor.fetchall()
-
-            # ALTERADO
-            return [
-                self._row_para_disciplina(materia)
-                for materia in disciplinas
-            ]
-
-        elif flag == "nome_minhas_faltas":
-
-            self.cursor.execute(
-                "SELECT * FROM tabela_materias"
-            )
-
-            disciplinas = self.cursor.fetchall()
-
-            # ALTERADO
-            return [
-                self._row_para_disciplina(materia)
-                for materia in disciplinas
-            ]
-
-        elif flag == "sem_id":
-
-            self.cursor.execute(
-                "SELECT * FROM tabela_materias"
-            )
-
-            disciplinas = self.cursor.fetchall()
-
-            # ALTERADO
-            return [
-                self._row_para_disciplina(materia)
-                for materia in disciplinas
-            ]
-
-        elif flag == "id":
-
-            self.cursor.execute(
-                "SELECT * FROM tabela_materias"
-            )
-
-            disciplinas = self.cursor.fetchall()
-
-            # ALTERADO
-            return [
-                self._row_para_disciplina(materia)
-                for materia in disciplinas
-            ]
-
-        return []
+        return [
+            self._row_para_disciplina(materia)
+            for materia in disciplinas
+        ]
         
     
     def remover_disciplina(self, id):
@@ -118,6 +72,7 @@ class BancoDeDados:
         self.conexao.commit()
         
         
+    # MODIFICADO
     def verificar_nome(self, nome):
 
         self.cursor.execute(
@@ -134,6 +89,7 @@ class BancoDeDados:
         return self._row_para_disciplina(resultado)
     
     
+    # MODIFICADO
     def verificar_id(self, id):
 
         self.cursor.execute(

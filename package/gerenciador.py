@@ -53,7 +53,7 @@ class Gerenciador:
         
         print("\nId - Disciplina")
 
-        disciplinas = self.banco.listar_disciplinas("id")
+        disciplinas = self.banco.listar_disciplinas()
         
         print("")
         
@@ -84,9 +84,15 @@ class Gerenciador:
     
     def adicionar_faltas(self):
         
+        disciplinas = self.banco.listar_disciplinas()
+        
+        if not disciplinas:
+            self.limpeza.limpar_terminal()
+            print("\nNão existem matérias cadastradas.")
+            return
+        
         print("\nId - Disciplina / Horas / Faltas / Faltas Max")
         
-        disciplinas = self.banco.listar_disciplinas("tudo")
         
         for materia in disciplinas:
             print(
@@ -103,49 +109,51 @@ class Gerenciador:
             id_disciplina = int(id_disciplina)
             
         except:
-            print("Digite apenas o número referente à disciplina.")
+            self.limpeza.limpar_terminal()
+            print("Digite apenas números.")
             return
         
-        if self.banco.verificar_id(id_disciplina):
+        materia = self.banco.verificar_id(id_disciplina)
+        
+        if not materia:
             
-            qtd_faltas = input("\nQuantas faltas deseja adicionar? (somente números): ")
-                
-            try:
-                qtd_faltas = int(qtd_faltas)
-                
-            except:
-                print("\nSelecione apenas números")
-                return
-            
-            
-            materia = self.banco.verificar_id(id_disciplina)
-            
-            if not materia:
-                return print("\nDisciplina não encontrada.")
-
-            novas_faltas = (materia.minhas_faltas + qtd_faltas)
-
-            self.banco.atualizar_faltas(
-                novas_faltas,
-                id_disciplina
-            )
-            
-            
-            self.limpeza.limpar_terminal()
-            print("\nFaltas adicionadas com sucesso!")
+            print("\nDisciplina não encontrada.")
             return
             
+        qtd_faltas = input("\nQuantas faltas deseja adicionar? (somente números): ")
+                
+        try:
+            qtd_faltas = int(qtd_faltas)
+            
+        except:
+            self.limpeza.limpar_terminal()
+            print("\nDigite apenas números.")
+            return
+        
+        if qtd_faltas <= 0:
+            self.limpeza.limpar_terminal()
+            print("\nDigite um número maior que zero.")
+            return
+    
+        materia.adicionar_faltas(qtd_faltas)
+        
+        self.banco.atualizar_faltas(materia.minhas_faltas, materia.id)
+            
         self.limpeza.limpar_terminal()
-        print("\nMatéria não encontrada.")
+        print("\nFaltas adicionadas com sucesso")
         return
         
 
     
     def retirar_faltas(self):
 
-        print("\nId - Disciplina / Faltas / Faltas Max")
+        disciplinas = self.banco.listar_disciplinas()
         
-        disciplinas = self.banco.listar_disciplinas("tudo")
+        if not disciplinas:
+            print("\nNão existem disciplinas cadastradas.")
+            return
+        
+        print("\nId - Disciplina / Faltas / Faltas Max")
         
         
         for materia in disciplinas:
@@ -163,41 +171,53 @@ class Gerenciador:
             id_disciplina = int(id_disciplina)
 
         except:
-            return print("Digite apenas o número referente à disciplina.")
+            self.limpeza.limpar_terminal()
+            print("Digite apenas números.")
+            return
 
-        if not self.banco.verificar_id(id_disciplina):
-            return print("\nDisciplina não encontrada.")
-            
+        materia = self.banco.verificar_id(id_disciplina)
         
-            
+        if not materia:
+            self.limpeza.limpar_terminal()
+            print("\nDisciplina não encontrada.")
+            return
         
-        qtd_faltas = input("\nQuantas faltas deseja retirar? (somente números): ")
+        qtd_faltas = input("\nQuantas faltas deseja retirar? (somente números): ").strip()
         
         try:
             qtd_faltas = int(qtd_faltas)
             
         except:
-            return print("\nSelecione apenas números")
+            self.limpeza.limpar_terminal()
+            return print("\nDigite apenas números")
             
+        if qtd_faltas <= 0:
+            self.limpeza.limpar_terminal()
+            print("\nDigite um número maior que zero.")
+            return
         
-        
-        materia = self.banco.verificar_id(id_disciplina)
-        
-        if not materia:
-            return print("\nDisciplina não encontrada.")
-
-        if materia.minhas_faltas < qtd_faltas:
-            return print("\nNão é possível ficar com faltas negativas.")
-        
-        novas_faltas = (materia.minhas_faltas - qtd_faltas)
-
-        self.banco.atualizar_faltas(novas_faltas, id_disciplina)
-        
+        # NOVO
+        if not materia.retirar_faltas(qtd_faltas):
+            self.limpeza.limpar_terminal()
+            print("\nNão é possível ficar com falta negativas.")
+            return
+            
+        self.banco.atualizar_faltas(materia.minhas_faltas, materia.id)
         
         self.limpeza.limpar_terminal()
         print("\nFaltas retiradas com sucesso!")
 
       
-            
-    def obter_disciplinas(self, flag):
-        return self.banco.listar_disciplinas(flag)
+    #Banco de Dados
+    def inicializar(self):
+        self.banco.conectar()
+        self.banco.criar_tabela()
+        
+    def obter_disciplinas(self):
+        return self.banco.listar_disciplinas()
+        
+    def encerrar(self):
+        self.banco.fechar_conexao()
+        
+    def existem_disciplinas(self):
+        return self.banco.verificar_tabela() is not None
