@@ -59,7 +59,7 @@ class Gerenciador:
         
         for materia in disciplinas:
             
-            print(f"{materia[0]} / {materia[1]}\n")
+            print(f"{materia.id} / {materia.nome}")
 
         disciplina_remove_disciplina = input("\nQual disciplina você deseja remover? (Digite o id referente): ").strip()
         
@@ -89,7 +89,13 @@ class Gerenciador:
         disciplinas = self.banco.listar_disciplinas("tudo")
         
         for materia in disciplinas:
-            print(f"{materia[0]} / {materia[1]} / {materia[2]} / {materia[3]} / {materia[4]}\n")
+            print(
+    f"{materia.id} / "
+    f"{materia.nome} / "
+    f"{materia.horas} / "
+    f"{materia.minhas_faltas} / "
+    f"{materia.faltas_max} \n"
+)
 
         id_disciplina = input("\nQual disciplina deseja adicionar a(s) falta(s)? (Digite o número referente): ").strip()
         
@@ -117,7 +123,7 @@ class Gerenciador:
             if not materia:
                 return print("\nDisciplina não encontrada.")
 
-            novas_faltas = materia[3] + qtd_faltas
+            novas_faltas = (materia.minhas_faltas + qtd_faltas)
 
             self.banco.atualizar_faltas(
                 novas_faltas,
@@ -143,7 +149,13 @@ class Gerenciador:
         
         
         for materia in disciplinas:
-            print(f"{materia[0]} / {materia[1]} / {materia[2]} / {materia[3]} / {materia[4]}\n")
+            print(
+    f"{materia.id} / "
+    f"{materia.nome} / "
+    f"{materia.horas} / "
+    f"{materia.minhas_faltas} / "
+    f"{materia.faltas_max}\n"
+)
 
         id_disciplina = input("\nQual disciplina deseja retirar a(s) falta(s)? (Digite o número referente): ").strip()
         
@@ -174,10 +186,10 @@ class Gerenciador:
         if not materia:
             return print("\nDisciplina não encontrada.")
 
-        if materia[3] < qtd_faltas:
+        if materia.minhas_faltas < qtd_faltas:
             return print("\nNão é possível ficar com faltas negativas.")
         
-        novas_faltas = materia[3] - qtd_faltas
+        novas_faltas = (materia.minhas_faltas - qtd_faltas)
 
         self.banco.atualizar_faltas(novas_faltas, id_disciplina)
         
