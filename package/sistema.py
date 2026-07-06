@@ -6,7 +6,6 @@ class Sistema:
     def __init__(self):
         pass
         
-        #resolver falta = nonetype
         
     def executar(self):
         self.rodando = True

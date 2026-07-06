@@ -21,16 +21,13 @@ class RelatorioCompleto(Relatorio):
                 f"{materia.faltas_max}"
             )
 
-            if materia.minhas_faltas > materia.faltas_max:
+            if materia.minhas_faltas >= materia.faltas_max:
                 print("\nVocê reprovou por falta.")
-
-            elif materia.minhas_faltas == materia.faltas_max:
-                print("\nVOCÊ NÃO PODE FALTAR MAIS!")
 
             elif abs(
                 materia.minhas_faltas -
                 materia.faltas_max
-            ) <= 2:
+            ) <= 1:
 
                 print(
                     f"\nATENÇÃO: Você ainda tem "

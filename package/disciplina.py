@@ -32,7 +32,7 @@ class Disciplina:
     
     def esta_reprovado(self):
         
-        return self.minhas_faltas > self.faltas_max
+        return self.minhas_faltas >= self.faltas_max
     
     
     def faltas_restantes(self):
