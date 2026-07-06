@@ -6,14 +6,12 @@ class Sistema:
     def __init__(self):
         pass
         
-        #resolver falta = nonetype
         
     def executar(self):
         self.rodando = True
         self.gerenciador = Gerenciador()
         self.limpeza = Limpeza()
-        self.gerenciador.banco.conectar()
-        self.gerenciador.banco.criar_tabela()
+        self.gerenciador.inicializar()
 
         
         while self.rodando:
@@ -49,7 +47,7 @@ class Sistema:
     
     def ver_faltas(self):
         
-        if self.gerenciador.banco.verificar_tabela() is None:
+        if not self.gerenciador.existem_disciplinas():
             print("\nVocê ainda não possui disciplinas adicionadas.")
             
             return
@@ -69,7 +67,7 @@ class Sistema:
             if escolha_relatorio == 1:
                 relatorio = RelatorioSimples()
                 
-                disciplinas = self.gerenciador.obter_disciplinas("nome_minhas_faltas")
+                disciplinas = self.gerenciador.obter_disciplinas()
                 
                 self.limpeza.limpar_terminal()
                 relatorio.exibir_relatorio(disciplinas)
@@ -77,7 +75,7 @@ class Sistema:
             elif escolha_relatorio == 2:
                 relatorio = RelatorioCompleto()
                 
-                disciplinas = self.gerenciador.obter_disciplinas("tudo")
+                disciplinas = self.gerenciador.obter_disciplinas()
                 
                 self.limpeza.limpar_terminal()
                 relatorio.exibir_relatorio(disciplinas)
@@ -85,15 +83,12 @@ class Sistema:
             else:
                 self.limpeza.limpar_terminal()
                 print("\nDigite um número válido.")
-                self.ver_faltas()
-            
-            
     
     
     
     def editar_faltas(self):
         
-        if self.gerenciador.obter_disciplinas("tudo") is None:
+        if self.gerenciador.obter_disciplinas() is None:
             print("\nVocê ainda não possui disciplinas adicionadas.")
         
         else:
@@ -107,7 +102,6 @@ class Sistema:
                 self.gerenciador.lembrete()
                 self.gerenciador.adicionar_faltas()
                 
-                pass
             
             elif escolha == "2":
                 
@@ -157,9 +151,7 @@ class Sistema:
             self.limpeza.limpar_terminal()
             print("\nEscolha uma opção válida.\n")
             self.editar_disciplina()
-            
-        
-        
+    
     def sair(self):
-        self.gerenciador.banco.fechar_conexao()
+        self.gerenciador.encerrar()
         self.rodando = False
